@@ -9,8 +9,8 @@ variable "vpc_cidr" {
 }
 
 variable "azs" {
-    description = "AZs in which subnets will be deployed"
-    type = list(string)
+  description = "AZs in which subnets will be deployed"
+  type        = list(string)
 }
 
 variable "private_subnets_cidr" {
