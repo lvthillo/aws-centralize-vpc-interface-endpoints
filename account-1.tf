@@ -71,6 +71,7 @@ resource "aws_security_group" "interface_endpoint_sgs" {
 resource "aws_security_group_rule" "allow_vpc_account_1" {
   for_each          = aws_security_group.interface_endpoint_sgs
   provider          = aws.account_1
+  description       = "Allow HTTPS traffic from VPC 1"
   type              = "ingress"
   from_port         = 443
   to_port           = 443
@@ -82,6 +83,7 @@ resource "aws_security_group_rule" "allow_vpc_account_1" {
 resource "aws_security_group_rule" "allow_vpc_account_2" {
   for_each          = aws_security_group.interface_endpoint_sgs
   provider          = aws.account_1
+  description       = "Allow HTTPS traffic from VPC 2"
   type              = "ingress"
   from_port         = 443
   to_port           = 443

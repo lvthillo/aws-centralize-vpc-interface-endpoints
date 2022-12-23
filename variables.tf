@@ -9,11 +9,11 @@ variable "assumed_role" {
 }
 
 variable "account_1" {
-  description = "Account ID of Interface endpoint account"
+  description = "Account ID of which hosts interface endpoints"
 }
 
 variable "account_2" {
-  description = "Account ID of Interface endpoint account"
+  description = "Account ID of account which connects to interface endpoints via account-1"
 }
 
 variable "vpc_endpoint_service_list" {
