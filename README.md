@@ -1,9 +1,12 @@
 # Centralized VPC Interface Endpoints using Terraform
-This example deploys a centralized vpC interface endpoint solution.
 
-* `account-1`: AWS account where we create a VPC with private subnets and VPC interface endpoints for each service defined in `vpc_endpoint_service_list`
+This example deploys a centralized VPC interface endpoint solution.
+
+* `account-1`: AWS account where we create a VPC with private subnets and VPC interface endpoints for each service defined in `vpc_endpoint_service_list`.
 * `account-2`: AWS account where we create a VPC with private subnets which is peered to the VPC in `account-1`. It makes use of the VPC interface endpoints deployed in the VPC of `account-1`.
 * `account-3`: AWS account where we create a VPC with private subnets which is peered to the VPC in `account-1`. It makes use of the VPC interface endpoints deployed in the VPC of `account-1`.
+
+![architecture-vpc-endpoints](https://user-images.githubusercontent.com/14105387/209798465-a75e716c-f233-456d-814e-a5f0e55dfea4.png)
 
 ## Requirements
 * Terraform (AWS Provider dependency)
@@ -58,10 +61,10 @@ Some drawbacks of Terraform providers:
 * [You can't use dynamic provider assignmets](https://github.com/hashicorp/terraform/issues/25244).
 * [You can't pass providers to for_each in a module](https://github.com/hashicorp/terraform/issues/24476)
 
-Those drawbacks force me to "duplicate" resources. I have to define a resource twice (with a differenet provider) instead of using dynamic solutions. This makes the solution less reusable, still it's not too hard to add VPCs/accounts.
+Those drawbacks force me to "duplicate" resources. I have to define a resource twice (with a different provider) instead of using dynamic solutions. This makes the solution less reusable, still it's not too hard to add VPCs/accounts.
 
 ## Test Setup
-To test the setup I want to connect to an EC2 instance in the VPC created in `account-2` and send a message to an SQS queue. Also create the SQS queue in `account-2`.
+To test the setup we can create to an EC2 instance in the VPC created in `account-1`, `account-2` or `account-3` and send a message to an SQS queue created in the same account. The queue can be encrypted if you add the `kms` VPC interface endpoint.
 The whole solution is private, there are no NAT gateways or Internet Gateways. This means that we can only connect to an EC2 using [Session Manager and its interface VPC endpoints](https://aws.amazon.com/premiumsupport/knowledge-center/ec2-systems-manager-vpc-endpoints/). 
 
 Here for we need VPC endpoints for:
@@ -71,8 +74,7 @@ Here for we need VPC endpoints for:
 
 Deploy an EC2 in a private subnet and attach an IAM role which has SQS access and the managed `AmazonSSMManagedInstanceCore` policy attached.
 If the solution is deployed correctly, then you can just connect to your EC2 instance using Session Manager.
-Now most AWS EC2s hav AWS CLI v1 installed. AWS CLI v1 connects to a deprecated endpoint for SQS, so we need to install AWS CLI v2 on the EC2.
-Our instance has no internet access so we will `scp` the installer to the instance using Session Manager.
+Nowadays most AWS EC2s have still AWS CLI v1 installed. AWS CLI v1 connects to a deprecated endpoint for SQS, so we need to install AWS CLI v2 on the EC2. Our instance has no internet access so we will `scp` the installer to the instance using Session Manager.
 
 ```
 $ scp awscliv2.zip ec2-user@i-02a902a38fcd4859e:/home/ec2-user/
@@ -107,9 +109,6 @@ Address: 10.0.2.157
 See the docs to configure your terminal to use Session Manager:
 * https://globaldatanet.com/tech-blog/ssh-and-scp-with-aws-ssm
 * https://github.com/qoomon/aws-ssm-ec2-proxy-command
-
-
-
 
 ### Additional Remarks
 * For VPC endpoint policy, we select the default policy, however, in the production environment you may restrict access to the specific AWS Principals.
