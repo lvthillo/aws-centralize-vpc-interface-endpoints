@@ -11,7 +11,7 @@ variable "vpc_endpoint_service_list" {
 }
 
 variable "account_1" {
-  description = "Account ID of which hosts interface endpoints"
+  description = "Account ID of account which hosts interface endpoints"
 }
 
 variable "account_2" {

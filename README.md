@@ -73,7 +73,7 @@ Check out this blog for more details.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_account_1"></a> [account\_1](#input\_account\_1) | Account ID of which hosts interface endpoints | `any` | n/a | yes |
+| <a name="input_account_1"></a> [account\_1](#input\_account\_1) | Account ID of account which hosts interface endpoints | `any` | n/a | yes |
 | <a name="input_account_2"></a> [account\_2](#input\_account\_2) | Account ID of account which connects to interface endpoints via account-1 | `any` | n/a | yes |
 | <a name="input_account_3"></a> [account\_3](#input\_account\_3) | Account ID of account which connects to interface endpoints via account-1 | `any` | n/a | yes |
 | <a name="input_assumed_role"></a> [assumed\_role](#input\_assumed\_role) | IAM Role to assume to deploy cross-account | `any` | n/a | yes |
